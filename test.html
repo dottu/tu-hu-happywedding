@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trọng Tụ & Thu Huyền | The Wedding</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- TỐI ƯU RENDERING --- */
+        img { max-width: 100%; height: auto; display: block; }
+        .gallery-img, .img-frame img { 
+            /* Giúp trình duyệt biết kích thước trước khi ảnh tải xong để tránh giật bố cục */
+            background-color: #f0f0f0; 
+            content-visibility: auto; 
+        }
+
+        /* --- 1. SETUP & VARIABLES --- */
+        :root {
+            --primary-color: #bf8f8f; 
+            --accent-color: #8c6a6a;
+            --bg-color: #fcf9f9;
+            --text-color: #555;
+            --font-script: 'Alex Brush', cursive;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-body: 'Montserrat', sans-serif;
+            --success-color: #4caf50;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-body);
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            overflow-x: hidden;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        /* --- 2. TYPOGRAPHY & UTILS --- */
+        h1, h2, h3, h4 { font-weight: normal; }
+        .script-font { font-family: var(--font-script); color: var(--primary-color); }
+        .serif-font { font-family: var(--font-serif); text-transform: uppercase; letter-spacing: 2px; color: var(--accent-color); }
+        .section-padding { padding: 80px 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+        .section-title { text-align: center; margin-bottom: 50px; position: relative; }
+        .section-title h2 { font-size: 3rem; line-height: 1; margin-bottom: 10px; }
+        .section-title span { font-family: var(--font-serif); font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; color: #999; display: block; margin-top: 15px; }
+        .section-title::after { content: "❦"; display: block; font-size: 30px; color: var(--primary-color); margin-top: 10px; }
+
+        .btn-custom {
+            padding: 15px 40px; background: var(--primary-color); border: 1px solid var(--primary-color);
+            color: #fff; text-transform: uppercase; letter-spacing: 2px; font-weight: 600;
+            font-size: 0.9rem; cursor: pointer; transition: 0.3s; display: inline-block; margin-top: 10px; text-decoration: none; border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(191, 143, 143, 0.4);
+        }
+        .btn-custom:hover { background: #a67c7c; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(191, 143, 143, 0.6); }
+
+        /* --- 3. TOAST MESSAGE --- */
+        #toast {
+            visibility: hidden; min-width: 250px; background-color: #fff; color: #333;
+            text-align: left; border-radius: 8px; padding: 20px; position: fixed; z-index: 3000;
+            right: 30px; top: 30px; font-size: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex; align-items: center; gap: 15px; border-left: 5px solid var(--success-color);
+            transform: translateX(100%); transition: transform 0.3s ease-in-out, visibility 0.3s;
+        }
+        #toast.show { visibility: visible; transform: translateX(0); }
+
+        /* --- 4. HEADER & NAV --- */
+        header {
+            height: 100vh; position: relative;
+            background: url('https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover no-repeat;
+            display: flex; align-items: center; justify-content: center; text-align: center;
+        }
+        header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.2); }
+        .hero-content { position: relative; z-index: 2; color: #fff; padding: 40px; border: 1px solid rgba(255,255,255,0.5); backdrop-filter: blur(2px); max-width: 600px; }
+        .hero-content h1 { font-family: var(--font-script); font-size: 5rem; margin: 10px 0; text-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .hero-date { font-family: var(--font-serif); font-size: 1.5rem; border-top: 1px solid #fff; border-bottom: 1px solid #fff; display: inline-block; padding: 10px 30px; margin-top: 20px; }
+
+        nav { position: fixed; top: 0; width: 100%; background: transparent; z-index: 999; transition: 0.4s; padding: 15px 0; }
+        nav.scrolled { background: rgba(255,255,255,0.95); box-shadow: 0 2px 20px rgba(0,0,0,0.05); padding: 10px 0; }
+        nav ul { display: flex; justify-content: center; list-style: none; padding: 0; }
+        nav li { margin: 0 15px; }
+        nav a { text-decoration: none; color: #fff; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: 500; transition: 0.3s; }
+        nav.scrolled a { color: #333; }
+        nav a:hover { color: var(--primary-color) !important; }
+
+        /* --- 5. SECTIONS --- */
+        .couple-grid { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; }
+        .couple-item { flex: 1; min-width: 300px; text-align: center; opacity: 0; } 
+        
+        .img-frame { width: 100%; height: 400px; overflow: hidden; border-radius: 200px 200px 0 0; border: 1px solid #e0e0e0; padding: 10px; position: relative; }
+        .img-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 190px 190px 0 0; transition: transform 0.5s; }
+        .couple-item:hover img { transform: scale(1.05); }
+        .couple-divider { font-family: var(--font-script); font-size: 3.5rem; color: var(--primary-color); margin: 0 20px; }
+        .info { margin-top: 25px; }
+        .info h3 { font-family: var(--font-serif); font-size: 1.8rem; color: var(--accent-color); font-weight: 600; }
+
+        .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-top: 40px; }
+        .event-card { background: #fff; border: 1px solid #eee; padding: 30px; text-align: center; border-radius: 8px; transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden; opacity: 0; }
+        .event-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .event-icon { font-size: 2.2rem; color: var(--primary-color); margin-bottom: 20px; }
+        .event-title { font-family: var(--font-serif); font-size: 1.6rem; color: var(--accent-color); font-weight: bold; }
+
+        .countdown-area { background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') fixed center; color: #fff; text-align: center; padding: 100px 0; }
+        .timer { display: flex; justify-content: center; gap: 30px; margin-top: 40px; flex-wrap: wrap; }
+        .timer-box { border: 1px solid rgba(255,255,255,0.3); width: 100px; height: 100px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 50%; backdrop-filter: blur(5px); }
+        .timer-box span { font-family: var(--font-serif); font-size: 2rem; line-height: 1; }
+        .timer-box p { font-size: 0.7rem; margin: 0; }
+
+        .gallery-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+            gap: 10px; 
+        }
+        .gallery-img { 
+            width: 100%; 
+            height: 300px;
+            object-fit: cover; 
+            cursor: pointer; 
+            filter: grayscale(20%); 
+            transition: 0.3s; 
+            border-radius: 4px; 
+            display: block; 
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .gallery-img:hover { filter: grayscale(0%); transform: scale(1.02); z-index: 2; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+
+        .lightbox { display: none; position: fixed; z-index: 2000; padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.95); }
+        .lightbox-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; animation-name: zoom; animation-duration: 0.4s; border: 2px solid #fff; border-radius: 2px; }
+        @keyframes zoom { from {transform:scale(0.8); opacity: 0} to {transform:scale(1); opacity: 1} }
+        .close-lb { position: absolute; top: 20px; right: 30px; color: #f1f1f1; font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer; z-index: 2001; }
+        .prev-btn, .next-btn { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 20px; margin-top: -50px; color: white; font-weight: bold; font-size: 25px; transition: 0.3s; border-radius: 0 3px 3px 0; user-select: none; background-color: rgba(0,0,0,0.1); }
+        .next-btn { right: 0; border-radius: 3px 0 0 3px; }
+        .prev-btn:hover, .next-btn:hover { background-color: rgba(191, 143, 143, 0.9); }
+
+        /* --- 6. RSVP --- */
+        .rsvp-area { background: #fff4f4; }
+        .rsvp-container { display: flex; gap: 40px; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); align-items: stretch; }
+        .rsvp-form-col { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .wishes-col { flex: 1; background: #fdfdfd; padding: 20px; border: 1px dashed #e0e0e0; border-radius: 8px; height: 500px; display: flex; flex-direction: column; }
+        
+        .form-heading { margin-bottom: 20px; text-align: center; }
+        .form-heading i { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 10px; }
+        .form-heading h4 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--accent-color); }
+        .wishes-col h3 { font-family: var(--font-serif); margin-bottom: 15px; text-align: center; color: var(--accent-color); border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        
+        .wishes-list { overflow-y: auto; flex: 1; padding-right: 5px; scroll-behavior: smooth; }
+        .wishes-list::-webkit-scrollbar { width: 5px; }
+        .wishes-list::-webkit-scrollbar-track { background: #f1f1f1; }
+        .wishes-list::-webkit-scrollbar-thumb { background: #d6b4b4; border-radius: 10px; }
+
+        .wish-card { background: #fff; border-left: 3px solid var(--primary-color); padding: 15px; margin-bottom: 12px; box-shadow: 0 3px 8px rgba(0,0,0,0.02); border-radius: 0 6px 6px 0; animation: slideIn 0.5s ease-out; position: relative; }
+        .wish-card::before { content: '“'; position: absolute; right: 10px; bottom: -15px; font-size: 2.5rem; color: #f5f5f5; font-family: serif; pointer-events: none; }
+        @keyframes slideIn { from {opacity: 0; transform: translateY(10px);} to {opacity: 1; transform: translateY(0);} }
+        .wish-name { font-weight: bold; font-size: 0.95rem; color: var(--accent-color); display: block; margin-bottom: 5px; }
+        .wish-msg { font-size: 0.9rem; font-style: italic; color: #666; line-height: 1.5; }
+
+        input, textarea { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #eee; background: #fdfdfd; font-family: var(--font-body); font-size: 0.9rem; outline: none; transition: 0.3s; border-radius: 6px; }
+        input:focus, textarea:focus { border-color: var(--primary-color); background: #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        textarea { resize: none; height: 150px; }
+
+        footer { background: #fff; padding: 40px 0; text-align: center; border-top: 1px solid #eee; }
+        .music-btn { position: fixed; bottom: 20px; left: 20px; width: 45px; height: 45px; background: #fff; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.15); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 1000; color: var(--primary-color); border: 1px solid var(--primary-color); transition: transform 0.2s; }
+        .music-btn:active { transform: scale(0.9); }
+        .music-btn.playing { animation: spin 4s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 3.5rem; }
+            .couple-grid { flex-direction: column; }
+            .rsvp-container { flex-direction: column; padding: 25px; gap: 30px; }
+            .wishes-col { width: 100%; height: 400px; }
+            .lightbox-content { width: 100%; }
+            .rsvp-form-col { order: 1; }
+            .wishes-col { order: 2; }
+            nav ul { padding: 0 10px; }
+            nav li { margin: 0 8px; }
+            nav a { font-size: 0.7rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="toast">
+        <i class="fas fa-check-circle" style="font-size: 1.5rem; color: #4caf50;"></i>
+        <div>
+            <strong style="display: block; margin-bottom: 2px;">Thành công!</strong>
+            <span style="font-size: 0.9rem; color: #666;">Cảm ơn bạn đã gửi lời chúc.</span>
+        </div>
+    </div>
+
+    <div class="music-btn" id="musicToggle">
+        <i class="fas fa-music"></i>
+    </div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <nav id="navbar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#couple">Couple</a></li>
+            <li><a href="#event">Sự kiện</a></li>
+            <li><a href="#gallery">Album</a></li>
+            <li><a href="#rsvp">Lưu bút</a></li>
+        </ul>
+    </nav>
+
+    <header id="home">
+        <div class="hero-content animate__animated animate__fadeInUp">
+            <h3>SAVE THE DATE</h3>
+            <h1 class="script-font">Tụ & Huyền</h1>
+            <div class="hero-date">30 . 03 . 2026</div>
+            <p style="margin-top: 20px; font-style: italic;">"We decided on forever"</p>
+        </div>
+    </header>
+
+    <section id="couple" class="section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="script-font">Groom & Bride</h2>
+                <span>Giới thiệu cặp đôi</span>
+            </div>
+            <div class="couple-grid">
+                <div class="couple-item animate-on-scroll">
+                    <div class="img-frame">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" loading="lazy" alt="Chu Re">
+                    </div>
+                    <div class="info"><h3>Trọng Tụ</h3><p>Chàng trai IT khô khan nhưng có trái tim ấm áp.</p></div>
+                </div>
+                <div class="couple-divider">&</div>
+                <div class="couple-item animate-on-scroll">
+                    <div class="img-frame">
+                        <img src="https://images.unsplash.com/photo-1525439726889-4d9435b86b42?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80" loading="lazy" alt="Co Dau">
+                    </div>
+                    <div class="info"><h3>Thu Huyền</h3><p>Cô nàng thiết kế mộng mơ, yêu màu hồng.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="event" class="section-padding" style="background-color: #fdfdfd;">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="script-font">When & Where</h2>
+                <span>Thời gian & Địa điểm</span>
+            </div>
+            <div class="event-grid">
+                <div class="event-card animate-on-scroll">
+                    <div class="event-icon"><i class="fas fa-church"></i></div>
+                    <h3 class="event-title">Lễ Hôn Phối</h3>
+                    <span class="event-time">09:00 AM - 01/01/2026</span>
+                    <p>Nhà Thờ Lớn Hà Nội<br>40 Nhà Chung, Hoàn Kiếm, HN</p>
+                    <a href="#" class="btn-custom" style="color: white; padding: 10px 30px; font-size: 0.8rem;">Xem bản đồ</a>
+                </div>
+                <div class="event-card animate-on-scroll">
+                    <div class="event-icon"><i class="fas fa-glass-cheers"></i></div>
+                    <h3 class="event-title">Tiệc Rượu Mừng</h3>
+                    <span class="event-time">11:30 AM - 01/01/2026</span>
+                    <p>Trống Đồng Palace<br>72 Trần Đăng Ninh, Cầu Giấy, HN</p>
+                    <a href="#" class="btn-custom" style="color: white; padding: 10px 30px; font-size: 0.8rem;">Xem bản đồ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="countdown-area">
+        <div class="container">
+            <h2 class="script-font" style="font-size: 4rem; margin-bottom: 20px;">Save The Date</h2>
+            <div class="timer" id="countdown">
+                <div class="timer-box"><span id="days">00</span><p>Ngày</p></div>
+                <div class="timer-box"><span id="hours">00</span><p>Giờ</p></div>
+                <div class="timer-box"><span id="minutes">00</span><p>Phút</p></div>
+                <div class="timer-box"><span id="seconds">00</span><p>Giây</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="section-padding">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="script-font">Wedding Gallery</h2>
+                <span>Khoảnh khắc hạnh phúc</span>
+            </div>
+            
+            <div class="gallery-grid">
+                <img src="images/ING04379 x ( 60x90 ).jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING04422.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING04440  50x 75.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING04516.JPG" class="gallery-img" loading="lazy">
+                <img src="images/ING04585.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING04599.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING04794.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING04866.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05087.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05568.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05568.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05630.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05702.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05797.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05984.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05996.jpg" class="gallery-img" loading="lazy">
+                <img src="images/ING05996.jpg" class="gallery-img" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <div id="lightboxModal" class="lightbox">
+        <span class="close-lb">&times;</span>
+        <a class="prev-btn">&#10094;</a>
+        <a class="next-btn">&#10095;</a>
+        <img class="lightbox-content" id="img01">
+    </div>
+
+    <section id="rsvp" class="section-padding rsvp-area">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="script-font">Gửi lời chúc phúc</h2>
+                <span>Lưu bút kỷ niệm</span>
+            </div>
+            
+            <div class="rsvp-container animate-on-scroll">
+                <div class="rsvp-form-col">
+                    <div class="form-heading">
+                        <i class="fas fa-heart"></i>
+                        <h4>Gửi những lời yêu thương</h4>
+                    </div>
+                    <form id="rsvpForm">
+                        <input type="text" id="guestName" placeholder="Tên của bạn là gì?" required>
+                        <textarea id="guestMsg" placeholder="Viết lời chúc tốt đẹp nhất gửi tới cô dâu chú rể..." required></textarea>
+                        <button type="submit" class="btn-custom" style="width: 100%;">Gửi lời chúc</button>
+                    </form>
+                </div>
+
+                <div class="wishes-col">
+                    <h3>Sổ Lưu Bút Online</h3>
+                    <div class="wishes-list" id="wishesList">
+                        <div class="wish-card">
+                            <span class="wish-name">Minh Tú</span>
+                            <p class="wish-msg">Chúc hai bạn trăm năm hạnh phúc, sớm sinh quý tử nhé! ❤️</p>
+                        </div>
+                        <div class="wish-card">
+                            <span class="wish-name">Ngọc Anh</span>
+                            <p class="wish-msg">Happy Wedding! Chúc Hương luôn xinh đẹp và hạnh phúc bên Hùng.</p>
+                        </div>
+                        <div class="wish-card">
+                            <span class="wish-name">Team IT</span>
+                            <p class="wish-msg">Code xong rồi, giờ đi lấy vợ thôi. Chúc mừng hạnh phúc người anh em!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo" style="font-family: 'Alex Brush'; font-size: 3rem; color: #bf8f8f;">T & H</div>
+        <p>Thank you for your love and support!</p>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // 1. COUNTDOWN
+            const weddingDate = new Date("Jan 1, 2026 12:00:00").getTime();
+            setInterval(function() {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+                $("#days").text(Math.floor(distance / (1000 * 60 * 60 * 24)));
+                $("#hours").text(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)));
+                $("#minutes").text(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)));
+                $("#seconds").text(Math.floor((distance % (1000 * 60)) / 1000));
+            }, 1000);
+
+            // 2. SCROLL ANIMATION (TỐI ƯU BẰNG INTERSECTION OBSERVER)
+            const observerOptions = { threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                        entry.target.style.opacity = "1";
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            $('.animate-on-scroll').each(function() { observer.observe(this); });
+
+            // NAVBAR SCROLL
+            let lastScrollTop = 0;
+            $(window).scroll(function() {
+                const st = $(this).scrollTop();
+                if (Math.abs(lastScrollTop - st) <= 5) return;
+                if (st > 100) $('#navbar').addClass('scrolled');
+                else $('#navbar').removeClass('scrolled');
+                lastScrollTop = st;
+            });
+
+            // 3. SMOOTH SCROLL
+            $('nav a').click(function(e) {
+                e.preventDefault();
+                $('html, body').animate({scrollTop: $($(this).attr('href')).offset().top}, 600);
+            });
+
+            // 4. MUSIC PLAYER
+            var audio = document.getElementById("bgMusic");
+            var isPlaying = false;
+            $("#musicToggle").click(function() {
+                if (isPlaying) { audio.pause(); $(this).removeClass("playing").html('<i class="fas fa-music"></i>'); }
+                else { audio.play(); $(this).addClass("playing").html('<i class="fas fa-pause"></i>'); }
+                isPlaying = !isPlaying;
+            });
+
+            // 5. LIGHTBOX
+            var currentImgIndex = 0;
+            var images = [];
+            $('.gallery-img').each(function(index) {
+                images.push($(this).attr('src'));
+                $(this).attr('data-index', index);
+            });
+            $('.gallery-img').click(function() {
+                currentImgIndex = $(this).data('index');
+                $('#lightboxModal').fadeIn();
+                $('#img01').attr('src', images[currentImgIndex]);
+            });
+            $('.close-lb, #lightboxModal').click(function(e) {
+                if(e.target !== this && e.target.id !== 'lightboxModal' && !$(e.target).hasClass('close-lb')) return;
+                $('#lightboxModal').fadeOut();
+            });
+            $('.next-btn').click(function(e) {
+                e.stopPropagation();
+                currentImgIndex = (currentImgIndex + 1) % images.length;
+                $('#img01').attr('src', images[currentImgIndex]);
+            });
+            $('.prev-btn').click(function(e) {
+                e.stopPropagation();
+                currentImgIndex = (currentImgIndex - 1 + images.length) % images.length;
+                $('#img01').attr('src', images[currentImgIndex]);
+            });
+
+            // 6. TOAST MESSAGE FUNCTION
+            function launchToast() {
+                var x = document.getElementById("toast");
+                x.className = "show";
+                setTimeout(function(){ x.className = ""; }, 3000);
+            }
+
+            // 7. HANDLE RSVP FORM SUBMIT
+            $("#rsvpForm").submit(function(e){
+                e.preventDefault();
+                var name = $("#guestName").val();
+                var msg = $("#guestMsg").val();
+                if(name && msg) {
+                    var safeName = $("<div>").text(name).html();
+                    var safeMsg = $("<div>").text(msg).html();
+                    var newWish = `<div class="wish-card"><span class="wish-name">${safeName}</span><p class="wish-msg">${safeMsg}</p></div>`;
+                    $("#wishesList").prepend(newWish);
+                    launchToast();
+                    $(this)[0].reset();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
