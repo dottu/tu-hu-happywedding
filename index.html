@@ -33,11 +33,6 @@
     <link href="https://tuhuyenhappy.iwedding.info/common/calendar.css?v=20251121" rel="stylesheet">
     <link href="https://tuhuyenhappy.iwedding.info/common/toastr/toastr.min.css?v=20251121" rel="stylesheet">
     <link href="https://tuhuyenhappy.iwedding.info/templates/template3/css/style.css?v=20251121" rel="stylesheet">
-    <link href="https://hunghuongwedding.iwedding.info/templates/template15/css/libs.css?v=20251121" rel="stylesheet">
-    <link href="https://hunghuongwedding.iwedding.info/common/calendar.css?v=20251121" rel="stylesheet">
-    <link href="https://hunghuongwedding.iwedding.info/templates/template15/css/style.css?v=20251121" rel="stylesheet">
-    <link href="https://hunghuongwedding.iwedding.info/common/fonts/fonts.css?v=20251121" rel="stylesheet">
-    <link href="https://hunghuongwedding.iwedding.info/common/toastr/toastr.min.css?v=20251121" rel="stylesheet">
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-K9L0ZFE1PJ"></script>
     <script>window.dataLayer = window.dataLayer || []; function gtag() { dataLayer.push(arguments); } gtag('js', new Date()); gtag('config', 'G-K9L0ZFE1PJ');</script>
@@ -502,40 +497,297 @@
         </section>
     </div>
 
-    <section class="donate-section section-padding section-bg-color" id="donate">
+    <style>
+        /* ===== DONATE SECTION ===== */
+        #donate {
+            background: #f4f4f4;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        #donate::before {
+            content: '♥';
+            position: absolute;
+            top: 20px;
+            left: 5%;
+            font-size: 120px;
+            color: rgba(249, 102, 126, 0.06);
+            pointer-events: none;
+        }
+        #donate::after {
+            content: '♥';
+            position: absolute;
+            bottom: 20px;
+            right: 5%;
+            font-size: 160px;
+            color: rgba(249, 102, 126, 0.05);
+            pointer-events: none;
+        }
+
+        .donate-section-heading {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .donate-section-heading .gift-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+            animation: giftBounce 2s ease-in-out infinite;
+        }
+        @keyframes giftBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .donate-section-heading h2 {
+            font-family: 'Playball', cursive;
+            font-size: 42px;
+            color: #f9667e;
+            margin: 0 0 14px;
+            letter-spacing: 1px;
+        }
+        .donate-section-heading .heading-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto;
+        }
+        .donate-section-heading .heading-divider span {
+            display: block;
+            height: 2px;
+            width: 56px;
+            background: #f9667e;
+        }
+        .donate-section-heading .heading-divider span:last-child {
+            background: #f9667e;
+        }
+        .donate-section-heading .heading-divider .divider-heart {
+            color: #f9667e;
+            font-size: 18px;
+            width: auto;
+            height: auto;
+            background: none;
+        }
+        .donate-section-heading p {
+            color: #7b7571;
+            font-style: italic;
+            margin-top: 12px;
+            font-size: 15px;
+        }
+
+        /* Cards grid */
+        .donate-cards-grid {
+            display: flex;
+            justify-content: center;
+            gap: 36px;
+            flex-wrap: wrap;
+        }
+        .donate-gift-card {
+            background: #ffffff;
+            border: 1px solid rgba(249, 102, 126, 0.18);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(249, 102, 126, 0.10), 0 2px 8px rgba(249, 102, 126, 0.06);
+            padding: 36px 32px 30px;
+            text-align: center;
+            width: 300px;
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .donate-gift-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: #f9667e;
+            border-radius: 24px 24px 0 0;
+        }
+        .donate-gift-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(249, 102, 126, 0.18), 0 4px 16px rgba(249, 102, 126, 0.10);
+        }
+        .donate-gift-card .card-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #f9667e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 24px;
+            box-shadow: 0 4px 12px rgba(249, 102, 126, 0.3);
+        }
+        .donate-gift-card h3 {
+            font-family: 'Playball', cursive;
+            font-size: 22px;
+            color: #f9667e;
+            margin: 0 0 18px;
+        }
+
+        /* QR image */
+        .donate-gift-card .qr-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 22px;
+        }
+        .donate-gift-card .qr-wrapper img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 3px solid rgba(249, 102, 126, 0.2);
+            box-shadow: 0 4px 16px rgba(249, 102, 126, 0.15);
+            display: block;
+        }
+        .donate-gift-card .qr-wrapper .qr-label {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f9667e;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            padding: 3px 12px;
+            border-radius: 20px;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(249, 102, 126, 0.3);
+        }
+
+        /* Bank info rows */
+        .donate-gift-card .bank-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .donate-gift-card .bank-info .info-row {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(249, 102, 126, 0.25);
+            gap: 8px;
+        }
+        .donate-gift-card .bank-info .info-row:last-child {
+            border-bottom: none;
+        }
+        .donate-gift-card .bank-info .info-label {
+            font-size: 12px;
+            color: #7b7571;
+            min-width: 90px;
+            flex-shrink: 0;
+        }
+        .donate-gift-card .bank-info .info-value {
+            font-size: 13px;
+            font-weight: 700;
+            color: #3d3d3d;
+            flex: 1;
+        }
+        .donate-gift-card .bank-info .copy-btn {
+            background: none;
+            border: 1px solid rgba(249, 102, 126, 0.35);
+            border-radius: 6px;
+            padding: 2px 8px;
+            font-size: 11px;
+            color: #f9667e;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        .donate-gift-card .bank-info .copy-btn:hover {
+            background: #f9667e;
+            color: #fff;
+            border-color: #f9667e;
+        }
+        .donate-gift-card .bank-info .copy-btn.copied {
+            background: #5cb85c;
+            color: #fff;
+            border-color: #5cb85c;
+        }
+    </style>
+
+    <section id="donate">
         <div class="container">
-            <div class="row">
-                <div class="col col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-0">
-                    <div class="section-title">
-                        <h2>Hộp mừng cưới</h2>
-                    </div>
+            <!-- Heading -->
+            <div class="donate-section-heading">
+                <span class="gift-icon">🎁</span>
+                <h2>Hộp mừng cưới</h2>
+                <div class="heading-divider">
+                    <span></span>
+                    <span class="divider-heart">♥</span>
+                    <span></span>
                 </div>
+                <p>Sự hiện diện của bạn là món quà quý giá nhất với chúng tôi 💝</p>
             </div>
 
-            <div class="donate-modal-content">
-                <div class="donate-box">
-                    <div class="donate-card">
-                        <h3>Mừng cưới đến chú rể</h3>
-                        <img class="qr-code-image"
-                            src="https://cdn.biihappy.com/ziiweb/website/68e365315a08c2f8cd011691/73a540c2b0c9c45a0a1a2b07b8c9f9e0.jpeg">
-                        <p>Ngân hàng: <strong>VPBank</strong></p>
-                        <p>Tên tài khoản: <strong>NGUYEN MANH HUNG</strong></p>
-                        <p>Số tài khoản: <strong>12345695</strong></p>
-
+            <!-- Cards -->
+            <div class="donate-cards-grid">
+                <!-- Chú rể -->
+                <div class="donate-gift-card">
+                    <div class="card-avatar">🤵</div>
+                    <h3>Mừng cưới chú rể</h3>
+                    <div class="qr-wrapper">
+                        <img src="./images/IMG_4894.jpeg" alt="QR Code chú rể">
+                        <span class="qr-label">Quét để chuyển khoản</span>
                     </div>
-                    <div class="donate-card">
-                        <h3>Mừng cưới đến cô dâu</h3>
-                        <img class="qr-code-image"
-                            src="https://cdn.biihappy.com/ziiweb/website/68e365315a08c2f8cd011691/bb070a411a372ede616fbcdb36f2dd11.jpeg">
-                        <p>Ngân hàng: <strong>VPBank</strong></p>
-                        <p>Tên tài khoản: <strong>TRAN THI HUONG</strong></p>
-                        <p>Số tài khoản: <strong>191020258386</strong></p>
+                    <div class="bank-info">
+                        <div class="info-row">
+                            <span class="info-label">Ngân hàng</span>
+                            <span class="info-value">ABBank</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Chủ tài khoản</span>
+                            <span class="info-value">DO TRONG TU</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Số tài khoản</span>
+                            <span class="info-value" id="stk-groom">0372131314</span>
+                            <button class="copy-btn" onclick="copySTK('stk-groom', this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
 
+                <!-- Cô dâu -->
+                <div class="donate-gift-card">
+                    <div class="card-avatar">👰</div>
+                    <h3>Mừng cưới cô dâu</h3>
+                    <div class="qr-wrapper">
+                        <img src="./images/IMG_1691.jpeg" alt="QR Code cô dâu">
+                        <span class="qr-label">Quét để chuyển khoản</span>
+                    </div>
+                    <div class="bank-info">
+                        <div class="info-row">
+                            <span class="info-label">Ngân hàng</span>
+                            <span class="info-value">Techcombank</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Chủ tài khoản</span>
+                            <span class="info-value">NGUYEN THU HUYEN</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Số tài khoản</span>
+                            <span class="info-value" id="stk-bride">1299951314</span>
+                            <button class="copy-btn" onclick="copySTK('stk-bride', this)">Copy</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        function copySTK(id, btn) {
+            var text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                btn.textContent = '✓ Đã copy';
+                btn.classList.add('copied');
+                setTimeout(function() {
+                    btn.textContent = 'Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
 
     <section id="footer">
         <div class="container">
