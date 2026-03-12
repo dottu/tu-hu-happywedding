@@ -43,6 +43,7 @@
 </script>
 
 <body>
+
     <div id="fullscreenloading">
         <div id="fullscreenloading-content">
             <div id="boxedResult">
@@ -101,12 +102,11 @@
                         <ul id="nav_list" class="nav navbar-nav navbar-right">
                             <li class=""><a href="#couple">Cặp đôi</a></li>
 
-
-
                             <li class=""><a href="#gallery">Album Hình Cưới</a></li>
 
                             <li class=""><a href="#events">Sự kiện cưới</a></li>
 
+                            <li class=""><a href="#donate">Mừng cưới</a></li>
 
                         </ul>
                     </div>
@@ -758,7 +758,6 @@
                     <h3>Mừng cưới chú rể</h3>
                     <div class="qr-wrapper">
                         <img src="./images/IMG_4894.jpeg" alt="QR Code chú rể">
-                        <span class="qr-label">Quét để chuyển khoản</span>
                     </div>
                     <div class="bank-info">
                         <div class="info-row">
@@ -783,7 +782,6 @@
                     <h3>Mừng cưới cô dâu</h3>
                     <div class="qr-wrapper">
                         <img src="./images/IMG_1691.jpeg" alt="QR Code cô dâu">
-                        <span class="qr-label">Quét để chuyển khoản</span>
                     </div>
                     <div class="bank-info">
                         <div class="info-row">
@@ -1017,7 +1015,7 @@
     </script>
 
     <!-- ===== BACKGROUND MUSIC ===== -->
-    <audio id="bgMusic" loop preload="auto">
+    <audio id="bgMusic" autoplay muted loop preload="auto">
         <source src="https://cdn.biihappy.com/ziiweb/wedding-musics/NgayDauTien-DucPhuc.mp3" type="audio/mpeg">
     </audio>
 
@@ -1171,7 +1169,6 @@
             const iconNote = document.getElementById('iconNote');
             const iconPlay = document.getElementById('iconPlay');
 
-            audio.volume = 0.55;
             let isPlaying = false;
 
             function setPlaying(val) {
@@ -1189,36 +1186,51 @@
                 }
             }
 
-            function tryPlay() {
-                audio.play().then(() => setPlaying(true)).catch(() => { });
-            }
+            // Kỹ thuật muted autoplay → unmute:
+            // Trình duyệt cho phép autoplay khi muted, sau khi play() thành công
+            // thì unmute và set volume bình thường.
+            audio.muted = true;
+            audio.volume = 0;
+            audio.play()
+                .then(function () {
+                    // Phát thành công → unmute dần
+                    audio.muted = false;
+                    // Tăng volume từ từ để không giật
+                    var vol = 0;
+                    var rise = setInterval(function () {
+                        vol = Math.min(vol + 0.05, 0.55);
+                        audio.volume = vol;
+                        if (vol >= 0.55) clearInterval(rise);
+                    }, 80);
+                    setPlaying(true);
+                })
+                .catch(function () {
+                    // Trình duyệt chặn → chờ tương tác lần đầu
+                    audio.muted = false;
+                    audio.volume = 0.55;
+                    function onFirst() {
+                        audio.play().then(function () { setPlaying(true); }).catch(function () { });
+                        document.removeEventListener('click', onFirst);
+                        document.removeEventListener('touchstart', onFirst);
+                        document.removeEventListener('keydown', onFirst);
+                        document.removeEventListener('scroll', onFirst);
+                    }
+                    document.addEventListener('click', onFirst);
+                    document.addEventListener('touchstart', onFirst);
+                    document.addEventListener('keydown', onFirst);
+                    document.addEventListener('scroll', onFirst);
+                });
 
-            // Tự động phát khi người dùng tương tác lần đầu (browser policy)
-            function onFirstInteract() {
-                if (!isPlaying) tryPlay();
-                document.removeEventListener('click', onFirstInteract);
-                document.removeEventListener('touchstart', onFirstInteract);
-                document.removeEventListener('keydown', onFirstInteract);
-                document.removeEventListener('scroll', onFirstInteract);
-            }
-            document.addEventListener('click', onFirstInteract);
-            document.addEventListener('touchstart', onFirstInteract);
-            document.addEventListener('keydown', onFirstInteract);
-            document.addEventListener('scroll', onFirstInteract);
-
-            // Click nút để bật/tắt
+            // Click nút nhạc để bật/tắt
             btn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 if (isPlaying) {
                     audio.pause();
                     setPlaying(false);
                 } else {
-                    tryPlay();
+                    audio.play().then(function () { setPlaying(true); }).catch(function () { });
                 }
             });
-
-            // Cố phát ngay (trình duyệt cho phép autoplay không cần tương tác)
-            tryPlay();
         })();
     </script>
 
