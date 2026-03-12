@@ -196,8 +196,8 @@
             <div class="row masonry-gallery">
                 <script type="text/javascript">
                     photoGalleries.push({
-                        src: "https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/galleries/699dcb866440b01bd30e6c70/large.jpg",
-                        thumb: "https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/galleries/699dcb866440b01bd30e6c70/small.jpg",
+                        src: "https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/galleries/69b275a95c12b81a9303e6fa/large.jpg",
+                        thumb: "https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/galleries/69b275a95c12b81a9303e6fa/small.jpg",
                         subHtml: `<div class="lg-sub-html"><h4></h4></div>`
                     });
                 </script>
@@ -363,7 +363,7 @@
                     <div class="grid col-lg-3 col-sm-6">
                         <div class="grid-item">
                             <div class="img-holder">
-                                <img src="https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/7d906f450e829be845cd6cd77d6d7609.jpeg"
+                                <img src="https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/galleries/699dcb866440b01bd30e6c70/large.jpg"
                                     alt>
                             </div>
                             <div class="datails">
@@ -505,8 +505,8 @@
             position: relative;
             overflow: hidden;
         }
+
         #donate::before {
-            content: '♥';
             position: absolute;
             top: 20px;
             left: 5%;
@@ -514,8 +514,8 @@
             color: rgba(249, 102, 126, 0.06);
             pointer-events: none;
         }
+
         #donate::after {
-            content: '♥';
             position: absolute;
             bottom: 20px;
             right: 5%;
@@ -528,16 +528,26 @@
             text-align: center;
             margin-bottom: 50px;
         }
+
         .donate-section-heading .gift-icon {
             font-size: 40px;
             display: block;
             margin-bottom: 10px;
             animation: giftBounce 2s ease-in-out infinite;
         }
+
         @keyframes giftBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
         }
+
         .donate-section-heading h2 {
             font-family: 'Playball', cursive;
             font-size: 42px;
@@ -545,6 +555,7 @@
             margin: 0 0 14px;
             letter-spacing: 1px;
         }
+
         .donate-section-heading .heading-divider {
             display: flex;
             align-items: center;
@@ -552,15 +563,18 @@
             gap: 12px;
             margin: 0 auto;
         }
+
         .donate-section-heading .heading-divider span {
             display: block;
             height: 2px;
             width: 56px;
             background: #f9667e;
         }
+
         .donate-section-heading .heading-divider span:last-child {
             background: #f9667e;
         }
+
         .donate-section-heading .heading-divider .divider-heart {
             color: #f9667e;
             font-size: 18px;
@@ -568,6 +582,7 @@
             height: auto;
             background: none;
         }
+
         .donate-section-heading p {
             color: #7b7571;
             font-style: italic;
@@ -582,6 +597,7 @@
             gap: 36px;
             flex-wrap: wrap;
         }
+
         .donate-gift-card {
             background: #ffffff;
             border: 1px solid rgba(249, 102, 126, 0.18);
@@ -594,18 +610,23 @@
             position: relative;
             overflow: hidden;
         }
+
         .donate-gift-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 4px;
             background: #f9667e;
             border-radius: 24px 24px 0 0;
         }
+
         .donate-gift-card:hover {
             transform: translateY(-8px);
             box-shadow: 0 20px 50px rgba(249, 102, 126, 0.18), 0 4px 16px rgba(249, 102, 126, 0.10);
         }
+
         .donate-gift-card .card-avatar {
             width: 52px;
             height: 52px;
@@ -618,6 +639,7 @@
             font-size: 24px;
             box-shadow: 0 4px 12px rgba(249, 102, 126, 0.3);
         }
+
         .donate-gift-card h3 {
             font-family: 'Playball', cursive;
             font-size: 22px;
@@ -631,6 +653,7 @@
             display: inline-block;
             margin-bottom: 22px;
         }
+
         .donate-gift-card .qr-wrapper img {
             width: 180px;
             height: 180px;
@@ -640,6 +663,7 @@
             box-shadow: 0 4px 16px rgba(249, 102, 126, 0.15);
             display: block;
         }
+
         .donate-gift-card .qr-wrapper .qr-label {
             position: absolute;
             bottom: -10px;
@@ -661,6 +685,7 @@
             margin-top: 20px;
             text-align: left;
         }
+
         .donate-gift-card .bank-info .info-row {
             display: flex;
             align-items: center;
@@ -668,21 +693,25 @@
             border-bottom: 1px dashed rgba(249, 102, 126, 0.25);
             gap: 8px;
         }
+
         .donate-gift-card .bank-info .info-row:last-child {
             border-bottom: none;
         }
+
         .donate-gift-card .bank-info .info-label {
             font-size: 12px;
             color: #7b7571;
             min-width: 90px;
             flex-shrink: 0;
         }
+
         .donate-gift-card .bank-info .info-value {
             font-size: 13px;
             font-weight: 700;
             color: #3d3d3d;
             flex: 1;
         }
+
         .donate-gift-card .bank-info .copy-btn {
             background: none;
             border: 1px solid rgba(249, 102, 126, 0.35);
@@ -694,11 +723,13 @@
             transition: all 0.2s;
             flex-shrink: 0;
         }
+
         .donate-gift-card .bank-info .copy-btn:hover {
             background: #f9667e;
             color: #fff;
             border-color: #f9667e;
         }
+
         .donate-gift-card .bank-info .copy-btn.copied {
             background: #5cb85c;
             color: #fff;
@@ -778,10 +809,10 @@
     <script>
         function copySTK(id, btn) {
             var text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text).then(function() {
+            navigator.clipboard.writeText(text).then(function () {
                 btn.textContent = '✓ Đã copy';
                 btn.classList.add('copied');
-                setTimeout(function() {
+                setTimeout(function () {
                     btn.textContent = 'Copy';
                     btn.classList.remove('copied');
                 }, 2000);
