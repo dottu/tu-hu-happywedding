@@ -24,7 +24,7 @@
     <meta name="author" content="Biihappy.com">
     <meta property="og:image:secure_url"
         content="https://cdn.biihappy.com/ziiweb/website/6995e3b425bac1afea0a5acd/a58978af6a2ce7c1c791787d0badfcaf.jpeg">
-    <link rel="shortcut icon" type="image/x-icon" href="https://iwedding.info/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="./images/image.png">
     <link href="https://tuhuyenhappy.iwedding.info/templates/template3/css/libs.css?v=20251121" rel="stylesheet">
     <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Oswald:400,300,700'>
     <link rel='stylesheet' type='text/css'
@@ -66,7 +66,7 @@
                     <h3 class="title"><span></span>We are getting married!<span></span></h3>
                     <ul class="names">
                         <li>Trọng Tụ</li>
-                        <li class="circle">&amp;</li>
+                        <li style="color:#F9667E;">❤</li>
                         <li>Thu Huyền</li>
                     </ul>
                     <div class="date">30 March 2026</div>
@@ -86,7 +86,7 @@
                     <a class="navbar-brand" href="#home">
                         <ul class="names">
                             <li>T</li>
-                            <li class="circle">&amp;</li>
+                            <li style="color:#F9667E;">❤</li>
                             <li>H</li>
                         </ul>
                     </a>
@@ -824,7 +824,7 @@
                     <h1>Thank You!</h1>
                     <ul class="names">
                         <li>Trọng Tụ</li>
-                        <li class="circle">&amp;</li>
+                        <li style="color:#F9667E;">❤</li>
                         <li>Thu Huyền</li>
                     </ul>
                 </div>
@@ -1186,49 +1186,25 @@
                 }
             }
 
-            // Kỹ thuật muted autoplay → unmute:
-            // Trình duyệt cho phép autoplay khi muted, sau khi play() thành công
-            // thì unmute và set volume bình thường.
-            audio.muted = true;
-            audio.volume = 0;
-            audio.play()
-                .then(function () {
-                    // Phát thành công → unmute dần
-                    audio.muted = false;
-                    // Tăng volume từ từ để không giật
-                    var vol = 0;
-                    var rise = setInterval(function () {
-                        vol = Math.min(vol + 0.05, 0.55);
-                        audio.volume = vol;
-                        if (vol >= 0.55) clearInterval(rise);
-                    }, 80);
-                    setPlaying(true);
-                })
-                .catch(function () {
-                    // Trình duyệt chặn → chờ tương tác lần đầu
-                    audio.muted = false;
-                    audio.volume = 0.55;
-                    function onFirst() {
-                        audio.play().then(function () { setPlaying(true); }).catch(function () { });
-                        document.removeEventListener('click', onFirst);
-                        document.removeEventListener('touchstart', onFirst);
-                        document.removeEventListener('keydown', onFirst);
-                        document.removeEventListener('scroll', onFirst);
-                    }
-                    document.addEventListener('click', onFirst);
-                    document.addEventListener('touchstart', onFirst);
-                    document.addEventListener('keydown', onFirst);
-                    document.addEventListener('scroll', onFirst);
-                });
+            function startMusic() {
+                audio.muted = false;
+                audio.volume = 0.55;
+                audio.play()
+                    .then(function () { setPlaying(true); })
+                    .catch(function () { });
+            }
 
-            // Click nút nhạc để bật/tắt
+            // Tự bật sau 100ms
+            setTimeout(startMusic, 100);
+
+            // Nút bật/tắt nhạc
             btn.addEventListener('click', function (e) {
                 e.stopPropagation();
                 if (isPlaying) {
                     audio.pause();
                     setPlaying(false);
                 } else {
-                    audio.play().then(function () { setPlaying(true); }).catch(function () { });
+                    startMusic();
                 }
             });
         })();
